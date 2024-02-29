@@ -1,15 +1,13 @@
 use std::fmt;
 
 struct Board{
-    rows: [[String; 3]; 3],
+    rows: [[&'static str; 3]; 3],
     turns: u8,
 }
 
 impl Board {
     fn new() -> Board{
-        Board{rows:[[" ".to_string(), " ".to_string(), " ".to_string()], 
-                    [" ".to_string(), " ".to_string(), " ".to_string()], 
-                    [" ".to_string(), " ".to_string(), " ".to_string()]], turns: 0}
+        Board{rows:[[" "; 3]; 3], turns: 0}
     }
     
     // prints out the tic-tac-toe board
@@ -24,9 +22,9 @@ impl Board {
     }
 
     // updates the character at the provided row and column to the provided character, returns an error if the row and column already has been assigned
-    fn update_space(&mut self, row: usize, col: usize, new_char: &str ) -> Result<(), fmt::Error>{
+    fn update_space(&mut self, row: usize, col: usize, new_char: &'static str ) -> Result<(), fmt::Error>{
         if self.rows[row][col] == " "{
-            self.rows[row][col] = new_char.to_string();
+            self.rows[row][col] = new_char;
             self.turns += 1;
             Ok(())
         }
@@ -51,11 +49,11 @@ impl Board {
             return self.rows[1][1].to_string();
         }
         " ".to_string()
-    }
+    }   
 }
 
 
 fn main() {
-    
-    println!("Winner: {}", board.check_winner())
+    let board = Board::new();
+    board.display();
 }
