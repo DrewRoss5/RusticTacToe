@@ -1,6 +1,4 @@
-use std::fmt::Error;
-
-
+use std::fmt;
 
 struct Board{
     rows: [[String; 3]; 3],
@@ -26,25 +24,25 @@ impl Board {
     }
 
     // updates the character at the provided row and column to the provided character, returns an error if the row and column already has been assigned
-    fn update_space(&mut self, row: usize, col: usize, new_char: &str ) -> Result<(), std::fmt::Error>{
+    fn update_space(&mut self, row: usize, col: usize, new_char: &str ) -> Result<(), fmt::Error>{
         if self.rows[row][col] == " "{
             self.rows[row][col] = new_char.to_string();
             self.turns += 1;
             Ok(())
         }
         else{
-            Err(Error)
+            Err(fmt::Error)
         }
     }
 
     // returns if there is a winner and the character they're playing as if so. If a " " is returned, there is no winner
     fn check_winner(&self) -> String{
-        // check for a winner on each column and row
+        // check for a winner on each row and column
         for i in 0..3{
-            if self.rows[i][0] == self.rows[i][1] && self.rows[i][1] == self.rows[i][2]{
+            if (self.rows[i][0] == self.rows[i][1]) && (self.rows[i][1] == self.rows[i][2]) && (self.rows[i][0] != " "){
                 return self.rows[i][0].to_string();
             }
-            else if self.rows[0][i] == self.rows[1][i] && self.rows[1][i] == self.rows[2][i]{
+            else if (self.rows[0][i] == self.rows[1][i]) && (self.rows[1][i] == self.rows[2][i])  && (self.rows[0][i] != " "){
                 return self.rows[0][i].to_string();
             }
         }
@@ -54,10 +52,10 @@ impl Board {
         }
         " ".to_string()
     }
-    
 }
 
 
 fn main() {
-
+    
+    println!("Winner: {}", board.check_winner())
 }
