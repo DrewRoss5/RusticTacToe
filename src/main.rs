@@ -1,5 +1,5 @@
 use std::io;
-use game::game::Board;
+use game::game::{Board, Player};
 
 mod game;
 
@@ -7,7 +7,6 @@ mod game;
 fn get_coords() -> [usize; 2]{
     let mut coords: [usize; 2] = [0; 2];
     let mut tmp_str: String = String::from("");
-    let mut tmp_i8: i8;
     let mut valid = false;
     // get the row
     while !valid{
@@ -22,7 +21,6 @@ fn get_coords() -> [usize; 2]{
                 }
                 else{
                     coords[0] = (val - 1) as usize;
-                    valid = true;
                 }
                 tmp_str.clear();
                 valid = true;
@@ -49,10 +47,44 @@ fn get_coords() -> [usize; 2]{
             Err(_) => {println!("Please provide an integer between one and three");}
         }
     }
-    coords
-    
+    coords 
+}
+
+// runs a single player's turn given their symbol 
+fn take_turn(player: &Player, board: &mut Board){
+    println!("Player {}, your turn", player.number);
+    board.display();
+    let mut valid_move = false;
+    let mut coords: [usize; 2];
+    while !valid_move{
+        coords = get_coords();
+        match board.update_space(coords[0], coords[1], player.symbol){
+            Ok(_) => {valid_move = true;}
+            Err(_) => {}
+        } 
+    }
 }
 
 fn main() {
-    
+    // create game objects
+    let mut game_board = Board::new();
+    let player1: Player = Player{ number: 1, symbol: "X" };
+    let player2: Player = Player{ number: 2, symbol: "O" };
+    while game_board.turns < 9 && game_board.check_winner() == " "{
+        // run the current player's turn 
+        if (game_board.turns % 2) == 0{
+            take_turn(&player1, &mut game_board)
+        }
+        else{
+            take_turn(&player2, &mut game_board)
+        }
+    }
+    game_board.display();
+    // determine the game's winner 
+    match game_board.check_winner(){
+        "X" => {println!("Player 1 wins!")}
+        "O" => {println!("Player 2 wins!")}
+        _ => {println!("Tie!")}
+    }
+
 }
