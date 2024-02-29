@@ -59,7 +59,5 @@ impl Board {
 
 
 fn main() {
-    let mut game_board = Board::new();
-    game_board.update_space(1, 1, "O").unwrap();
-    game_board.display();
+
 }
