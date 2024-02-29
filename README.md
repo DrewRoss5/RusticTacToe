@@ -7,4 +7,4 @@ Tic tac toe implemented in rust, made to learn rust.
 </ul>
 
 # Usage
-Currently, the game takes two human players. Simply download this repo, and use the `cargo run` command, and you can play the game from the terminal. 
+Currently, the game takes two human players. Simply clone this repo, and use the `cargo run` command, and you can play the game from the terminal. 
